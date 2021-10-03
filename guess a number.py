@@ -3,6 +3,7 @@ import random
 count = 0
 number = 0
 choice = ""
+remain = 3
 
 def right_or_wrong(x):
     global number
@@ -18,10 +19,13 @@ def right_or_wrong(x):
 
 def contador():
     global count
+    global remain
     count += 1
+    remain -= 1
     global choice
     if count < 3:
         print("wrong another try")
+        print("you have " + str(remain) + " attemps less")
         choice = int(input("say your guess \n"))
         right_or_wrong(choice)
     else:
@@ -29,7 +33,9 @@ def contador():
 
 def fin(x):
     global count
+    global remain
     count = 0
+    remain = 3
     if number != x:
         print("looks like i won do you want a remacht \n y/n")
         re = input()
