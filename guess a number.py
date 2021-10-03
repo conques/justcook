@@ -22,7 +22,7 @@ def contador():
     global choice
     if count < 3:
         print("wrong another try")
-        choice = int(input("say your guess"))
+        choice = int(input("say your guess \n"))
         right_or_wrong(choice)
     else:
         fin(choice)
@@ -51,7 +51,7 @@ def inicio():
     number = random.randint(1, 10)
     print("welcome to the guessing game!")
     print("ready i have my number between 1 and 10")
-    choice = int(input("say your guess"))
+    choice = int(input("say your guess \n"))
     right_or_wrong(choice)
 
 inicio()
