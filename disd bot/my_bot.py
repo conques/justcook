@@ -2,8 +2,11 @@ import discord
 import requests
 import json
 import random
+import music
+from discord.ext import commands
 
-client = discord.Client()
+cogs = [music]
+client = commands.Bot(command_prefix="?", intents=discord.Intents.all())
 respuesta = ""
 malo = ["trolo",
         ]
@@ -42,6 +45,10 @@ comandos = [
 
 ]
 
+
+for i in range(len(cogs)):
+    cogs[i].setup(client)
+
 with open("alegre_lista.txt", "r") as alegre:
     alegre_contenido = alegre.readline()
     while len(alegre_contenido) > 0:
@@ -52,7 +59,6 @@ with open("alegre_lista.txt", "r") as alegre:
 with open("malo.txt", "r") as malos:
     malo_contenido = malos.readline()
     while len(malo_contenido) > 0:
-        print(malo)
         if malo_contenido not in malo:
             malo.append(malo_contenido.replace("\n", ""))
         malo_contenido = malos.readline()
@@ -69,6 +75,13 @@ def get_quote():
     json_data = json.loads(response.text)
     quote = json_data[0]["q"] + " -" + json_data[0]["a"]
     return quote
+
+def bitcoin():
+    url = "https://api.coindesk.com/v1/bpi/currentprice/BTC.json"
+    response = requests.get(url)
+    value = response.json()["bpi"]["USD"]["rate"]
+    valor = "el precio del bitcoin es de : $" + value + " dolares"
+    return valor
 
 
 @client.event
@@ -90,6 +103,11 @@ async def on_message(message):
         quote = get_quote()
         await message.channel.send(quote)
 
+    if msg.startswith("?bitcoin"):
+        valor = bitcoin()
+        await message.channel.send(valor)
+
+
     if any(word in msg for word in triste):
         await message.channel.send(random.choice(alegrar))
 
@@ -110,7 +128,6 @@ async def on_message(message):
 
 def actualizar(msg):
     global respuesta
-    partes = []
     partes = msg.split("_")
     partes.remove("?nuevo")
     msg = "".join(partes)
@@ -123,4 +140,4 @@ def actualizar(msg):
         return respuesta
 
 
-client.run("")
+client.run("your token")
