@@ -140,4 +140,4 @@ def actualizar(msg):
         return respuesta
 
 
-client.run("your token")
+client.run("secret token")
